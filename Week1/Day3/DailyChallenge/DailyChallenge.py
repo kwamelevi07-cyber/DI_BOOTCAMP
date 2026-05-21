@@ -1,40 +1,44 @@
-#DailyChallenge Day 3
-#Step 1: Create the Farm Class
 class Farm:
-    def __init__(self,Farm_name):
-        self.name = Farm_name
+    def __init__(self, farm_name):
+        self.name = farm_name
         self.animals = {}
-#Step 8: upgrade the add_animal Method        
+
     def add_animal(self, **kwargs):
-        count=1
         for animal_type, count in kwargs.items():
-          if animal_type in self.animals:
-             count += 1
-          else:
-            count = 1
-#Step 4: Implement the get_info Method            
+            if animal_type in self.animals:
+                self.animals[animal_type] += count
+            else:
+                self.animals[animal_type] = count
+
     def get_info(self):
-        print(f"{self.name} has:")
+        info = f"{self.name}'s farm\n\n"
         for animal, count in self.animals.items():
-            print(f"{count} {animal}")
-        print("E-I-E-I-0!")
-#Step 6: Implement the get_animal_types Method
+            info += f"{animal} : {count}\n"
+        info += "\n    E-I-E-I-0!"
+        return info
+
     def get_animal_types(self):
-      return sorted(self.animals.keys())  
-#Step 7: Implement the get_short_info Method
+        return sorted(self.animals.keys())
+
     def get_short_info(self):
-        print("McDonald's farm has cows,goats and sheeps.") 
-             
-#Step 5: Test Your Code
-farm1=Farm("McDonald's")
-farm1.add_animal("cow",1)
-farm1.add_animal("chicken",7)
-farm1.add_animal("pig",3)
-farm1.get_info()
-farm1.get_animal_types()
-for animal, count in farm1.animals.items():
-    if count > 1:
-        print(f"{count} {animal}s")
-farm1.add_animal(cow=5, sheep=2, goat=12)
+        animals = self.get_animal_types()
+        named = [
+            a + "s" if self.animals[a] > 1 else a
+            for a in animals
+        ]
+        if len(named) > 1:
+            listed = ", ".join(named[:-1]) + " and " + named[-1]
+        else:
+            listed = named[0]
+        return f"{self.name}'s farm has {listed}."
 
 
+# --- Test ---
+macdonald = Farm("McDonald")
+macdonald.add_animal(cow=5, sheep=2, goat=12)
+
+print(macdonald.get_info())
+print()
+print(macdonald.get_short_info())
+print()
+print("Animal types:", macdonald.get_animal_types())
