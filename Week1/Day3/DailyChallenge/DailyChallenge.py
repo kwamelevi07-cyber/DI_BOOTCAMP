@@ -35,6 +35,6 @@ farm1.get_animal_types()
 for animal, count in farm1.animals.items():
     if count > 1:
         print(f"{count} {animal}s")
-
+farm1.add_animal(cow=5, sheep=2, goat=12)
 
 
