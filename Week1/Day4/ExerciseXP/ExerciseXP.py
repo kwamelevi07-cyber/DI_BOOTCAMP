@@ -16,33 +16,27 @@ class Cat():
     def walk(self):
         return f'{self.name} is just walking around'
 #Étape 2 : Créer une liste d’instances de chat    
-class siamese(Cat):
+class Siamese(Cat):
     def __init__(self, name, age):
         super().__init__(name, age)
-        def sing(self, sounds):
+    def sing(self, sounds):
             return f'{sounds}'
-        def dance(self, style):
+    def dance(self, style):
             return f'{style}'
         
-class bengal(Cat):
+class Bengal(Cat):
     def __init__(self, name, age):
         super().__init__(name, age)
     def sing(self, sounds):
         return f'{sounds}'
 
-class chartreux(Cat):
+class Chartreux(Cat):
     def __init__(self, name, age):
         super().__init__(name, age)
     def sing(self, sounds):
         return f'{sounds}'
 
-class siamese(Cat):
-    def __init__(self, name, age):
-        super().__init__(name, age)
-    def sing(self, sounds):
-        return f'{sounds}'
-
-all_cats = [bengal("Sia", 2), chartreux("Ben", 3), siamese("Char", 4)]    
+all_cats = [Bengal("Sia", 2), Chartreux("Ben", 3), Siamese("Char", 4)]    
 #Étape 2 : Créer une liste d’instances de chat  
 sara_pets=Pets(all_cats)
 #Étape 4 : Emmener les chats en promenade
@@ -81,54 +75,55 @@ dog3.bark()
                       #Exercice 3 : Chiens domestiqués
 import random
 from ExerciseXP.Exercise2 import Dog
-class petDog(Dog):
-    def __init__(self, name, age, weight, trained):
+class PetDog(Dog):
+    def __init__(self, name, age, weight, train):
         super().__init__(name, age, weight)
-        self.trained = False
-    def show_trained(self):
-        petDog.bark()
-        self.trained = True    
+        self.train = False
+    def trained(self):
+        self.bark()
+        self.train = True    
     def play(self,*args):
         return (f"{', '.join([dog.name for dog in args])} are playing together")    
     def do_a_trick(self):
         tricks = ["does a barrel roll", "stands on his back legs", "shakes your hand", "plays dead"]
-        if self.trained==True:
+        if self.train==True:
             return random.choice(tricks)
 #Étape 3 : Tester les méthodes PetDog
-my_dog = petDog("Fido", 2, 10)
-my_dog.train()
-my_dog.play("Buddy", "Max")
+my_dog = PetDog("Fido", 2, 10)
+my_dog1 = PetDog("Buddy", 3, 15)
+my_dog2 = PetDog("Max", 4, 25)
+my_dog.trained()
+my_dog.play(my_dog1, my_dog2)
 my_dog.do_a_trick()     
             
                           #Exercice 4 : Cours en famille et par personne
 #Étape 1 : Créer la Personclasse
-class person:
+class Person:
     def __init__(self,first_name,age,last_name):
         self.first_name = first_name
         self.age = age
         self.last_name = last_name
-        def is_18(self):
-            if self.age >= 18:
-                return True
-            else:
-                return False
+    def is_18(self):
+         if self.age >= 18:
+             return True
+         else:
+             return False
 #Étape 2 : Créer la Familyclasse
-class family:
+class Family:
     def __init__(self,last_name,members):
         members = []
         self.last_name = last_name
         self.members = members
     def born(self,first_name,age):
-        new_person=person(first_name,age,self.last_name)
+        new_person=Person(first_name,age,self.last_name)
         self.members.append(new_person)
     def check_majority(self,first_name):
         for member in self.members:
             if member.first_name == first_name:
-                return member.is_18()
-            elif member.age > 18:
-                return (f"You are over 18, your parents Jane and John accept that you will go out with your friends") 
-            elif member.age < 18:
-                return (f"Sorry, you are not allowed to go out with your friends.")
+                if member.is_18():
+                    return (f"You are 18 or older, you can go out with your friends")
+                else:
+                   return (f"Sorry, you are not allowed to go out with your friends.")
     def family_presentation(self):
         print(f'your last name is {self.last_name}')   
         for member in self.members:
