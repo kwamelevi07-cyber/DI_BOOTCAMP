@@ -1,56 +1,47 @@
 import random
-class Game:
-    def __init__(self):
-        self.user_items = None
-        self.computer_items = None
 
-    def get_user_items(self):
-        self.user_items = input("Entrer un element (pierre, papier, ciseaux) : ").strip().lower()
+class Game:
+    def get_user_item(self):
+        """Demande et valide le choix de l'utilisateur."""
+        choices = ["pierre", "feuille", "ciseaux"]
+        while True:
+            user_choice = input("Choisissez pierre, feuille ou ciseaux : ").strip().lower()
+            if user_choice in choices:
+                return user_choice
+            print("Choix invalide. Veuillez réessayer.")
+
+    def get_computer_item(self):
+        """Sélectionne aléatoirement un élément pour l'ordinateur."""
+        choices = ["pierre", "feuille", "ciseaux"]
+        return random.choice(choices)
+
+    def get_game_result(self, user_item, computer_item):
+        """Détermine le résultat du match du point de vue de l'utilisateur."""
+        if user_item == computer_item:
+            return "match nul"
         
-        while self.user_items not in ["pierre", "papier", "ciseaux"]:
-            if self.user_items == "":
-                print("Vous devez entrer un element pour jouer.")
-            else:
-                print("Element invalide. Veuillez entrer pierre, papier ou ciseaux.")
-            
-            self.user_items = input("Entrer un element (pierre, papier, ciseaux) : ").strip().lower()
-            
-        return self.user_items
-    def get_computer_items(self):
-        import random
-        self.computer_items = random.choice(["pierre", "papier", "ciseaux"])
-        return self.computer_items
-    
-    def get_game_result(self, user_items, computer_items):
-        if user_items == computer_items:
-            return "Egalité !"
-        elif (user_items == "pierre" and computer_items == "ciseaux") or (user_items == "papier" and computer_items == "pierre") or (user_items == "ciseaux" and computer_items == "papier"):
-            return "Vous avez gagné !"
+        # Conditions de victoire pour l'utilisateur
+        win_conditions = {
+            "pierre": "ciseaux",
+            "feuille": "pierre",
+            "ciseaux": "feuille"
+        }
+        
+        if win_conditions[user_item] == computer_item:
+            return "victoire"
         else:
-            return "L'ordinateur a gagné !"
-    
+            return "défaite"
+
     def play(self):
-        # 1. Récupérer l'élément de l'utilisateur
-        user_choice = self.get_user_items()
+        """Exécute une manche complète et affiche le résultat."""
+        user_item = self.get_user_item()
+        computer_item = self.get_computer_item()
+        result = self.get_game_result(user_item, computer_item)
         
-        # 2. Tirer un objet au hasard pour l'ordinateur
-        self.computer_items = random.choice(["pierre", "papier", "ciseaux"])
-        # 3. Déterminer les résultats et afficher le message
-        if user_choice == self.computer_items:
-            result_message = "match nul !"
-            result_code = "match"
-        elif (user_choice == "pierre" and self.computer_items == "ciseaux") or \
-             (user_choice == "papier" and self.computer_items == "pierre") or \
-             (user_choice == "ciseaux" and self.computer_items == "papier"):
-            result_message = "Vous avez gagné !"
-            result_code = "victoire"
+        # Affichage du résultat formaté
+        if result == "match nul":
+            print(f"Vous avez choisi {user_item}. L'ordinateur a choisi {computer_item}. Vous avez fait match nul !")
         else:
-            result_message = "Vous avez perdu."
-            result_code = "défaite"
+            print(f"Vous avez choisi {user_item}. L'ordinateur a choisi {computer_item}. Vous avez {result} !")
             
-        # Affichage du résultat demandé
-        print(f"Vous avez choisi {user_choice}. L'ordinateur a choisi {self.computer_items}. {result_message}")
-        
-        # 4. Renvoi du résultat sous forme de chaîne de caractères
-        return result_code
-    
+        return result

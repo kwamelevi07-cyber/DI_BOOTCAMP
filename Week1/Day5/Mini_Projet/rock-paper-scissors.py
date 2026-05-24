@@ -1,40 +1,57 @@
-                 #Partie II - pierre-papier-ciseaux.py
-from Week1.Day5.Mini_Projet.game import Game
+from game import Game
 
 def get_user_menu_choice():
-    print("Menu :")
-    print("1. Jouer au jeu")
-    print("2. Quitter")
+    """Affiche le menu et récupère le choix de l'utilisateur sans boucle."""
+    print("\n--- MENU PRINCIPAL ---")
+    print("1. Jouer une nouvelle partie")
+    print("2. Afficher les scores")
+    print("Q. Quitter")
     
-    choice = input("Entrez votre choix (1 ou 2) : ").strip()
-    
-    if choice == "1":
-        return "play"
-    elif choice == "2":
-        return "quit"
-    
+    choice = input("Votre choix : ").strip().lower()
     return choice
 
 def print_results(results):
-    results = {
-        "win":2,
-        "loss":4,
-        "draw":3
-    }
-    print("Merci pour votre participation !")
-    print("Résultats :")
+    """Affiche le score cumulé de manière conviviale et remercie le joueur."""
+    print("\n=============================")
+    print("      RÉSUMÉ DES SCORES      ")
+    print("=============================")
+    print(f" Victoires : {results['win']}")
+    print(f" Défaites  : {results['loss']}")
+    print(f" Matchs nuls : {results['draw']}")
+    print("=============================")
+    print("Merci d'avoir joué ! À bientôt !")
 
 def main():
+    """Fonction principale gérant la boucle de l'application."""
+    # Initialisation du dictionnaire des scores selon le format requis
+    scores = {"win": 0, "loss": 0, "draw": 0}
+    
     while True:
-        get_user_menu_choice()
-        user_choice = get_user_menu_choice()
-        if user_choice == "play":
-            print("Le jeu commence !")
-        elif user_choice == "quit":
-            print("Au revoir !")
+        choice = get_user_menu_choice()
+        
+        if choice == "1":
+            # Création d'une instance et lancement de la partie
+            current_game = Game()
+            outcome = current_game.play()
+            
+            # Mise à jour des scores
+            if outcome == "victoire":
+                scores["win"] += 1
+            elif outcome == "défaite":
+                scores["loss"] += 1
+            elif outcome == "match nul":
+                scores["draw"] += 1
+                
+        elif choice == "2":
+            # Option bonus pour afficher les scores en cours de session
+            print(f"\nScores actuels -> Victoires: {scores['win']}, Défaites: {scores['loss']}, Nuls: {scores['draw']}")
+            
+        elif choice in ["q", "x"]:
+            # Sortie de la boucle et affichage final
+            print_results(scores)
             break
         else:
-            print("Choix invalide. Veuillez entrer 1 pour jouer ou 2 pour quitter.")
-    Joueur_1 = Game()
-    Joueur_1.play()
-    print_results(Joueur_1)
+            print("Option indisponible. Veuillez choisir 1, 2 ou Q.")
+
+if __name__ == "__main__":
+    main()
