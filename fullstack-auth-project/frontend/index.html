@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portail Utilisateurs</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="auth-panel" id="auth-panel">
+      <aside class="intro-panel">
+        <p class="eyebrow">Portail securise</p>
+        <h1>Gestion des utilisateurs</h1>
+        <p>Inscription, connexion, profil membre et administration des comptes depuis une interface reliee a SQLite.</p>
+        <div class="metrics">
+          <span>JWT Auth</span>
+          <span>SQLite</span>
+          <span>Admin</span>
+        </div>
+      </aside>
+
+      <div class="auth-card">
+        <div class="brand">
+          <p class="eyebrow">Espace membre</p>
+          <h2>Acces au compte</h2>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-view="login">Connexion</button>
+          <button class="tab" data-view="register">Inscription</button>
+        </div>
+
+        <form id="login-form" class="form">
+          <label>
+            Email
+            <input type="email" name="email" value="admin@example.com" required>
+          </label>
+          <label>
+            Mot de passe
+            <input type="password" name="password" value="admin123" required>
+          </label>
+          <button type="submit">Se connecter</button>
+        </form>
+
+        <form id="register-form" class="form hidden">
+          <div class="form-grid">
+            <label>
+              Nom complet
+              <input type="text" name="name" placeholder="Ex: Awa Kouame" required>
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" placeholder="nom@example.com" required>
+            </label>
+            <label>
+              Telephone
+              <input type="tel" name="phone" placeholder="+225 07 00 00 00 00">
+            </label>
+            <label>
+              Ville
+              <input type="text" name="city" placeholder="Abidjan">
+            </label>
+            <label>
+              Profession
+              <input type="text" name="job_title" placeholder="Developpeur web">
+            </label>
+            <label>
+              Organisation
+              <input type="text" name="organization" placeholder="DI Bootcamp">
+            </label>
+            <label>
+              Date de naissance
+              <input type="date" name="birth_date">
+            </label>
+            <label>
+              Pays
+              <input type="text" name="country" placeholder="Cote d'Ivoire">
+            </label>
+            <label>
+              LinkedIn
+              <input type="url" name="linkedin_url" placeholder="https://linkedin.com/in/...">
+            </label>
+            <label>
+              GitHub
+              <input type="url" name="github_url" placeholder="https://github.com/...">
+            </label>
+            <label class="full-field">
+              Competences
+              <input type="text" name="skills" placeholder="HTML, CSS, JavaScript, Node.js">
+            </label>
+            <label class="full-field">
+              Bio
+              <textarea name="bio" rows="3" placeholder="Quelques mots sur vous"></textarea>
+            </label>
+            <label class="full-field">
+              Mot de passe
+              <input type="password" name="password" minlength="6" placeholder="Minimum 6 caracteres" required>
+            </label>
+          </div>
+          <button type="submit">Creer un compte</button>
+        </form>
+
+        <p class="message" id="auth-message"></p>
+      </div>
+    </section>
+
+    <section class="dashboard hidden" id="dashboard">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Connecte</p>
+          <h2 id="welcome-title">Bienvenue</h2>
+        </div>
+        <button class="secondary" id="logout-button">Deconnexion</button>
+      </header>
+
+      <section class="profile">
+        <div class="section-heading">
+          <h3>Profil utilisateur</h3>
+          <button class="secondary" id="edit-profile-button">Modifier</button>
+        </div>
+        <div class="profile-head">
+          <img class="avatar" id="profile-avatar" src="" alt="Photo de profil">
+          <div>
+            <p class="eyebrow">Photo de profil</p>
+            <form id="avatar-form" class="inline-form">
+              <input type="file" name="avatar" accept="image/*" required>
+              <button type="submit">Ajouter la photo</button>
+              <button class="secondary" type="button" id="delete-avatar-button">Retirer</button>
+            </form>
+            <p class="success-message" id="avatar-message"></p>
+          </div>
+        </div>
+        <dl id="profile-details"></dl>
+      </section>
+
+      <section class="documents-panel">
+        <div class="section-heading">
+          <h3>Fichiers complementaires</h3>
+        </div>
+        <form id="files-form" class="inline-form">
+          <select name="document_type">
+            <option value="CV">CV</option>
+            <option value="Diplome">Diplome</option>
+            <option value="Carte d'identite">Carte d'identite</option>
+            <option value="Attestation">Attestation</option>
+            <option value="Autre">Autre</option>
+          </select>
+          <input type="file" name="files" multiple>
+          <button type="submit">Ajouter des fichiers</button>
+        </form>
+        <p class="success-message" id="files-message"></p>
+        <div class="files-list" id="files-list"></div>
+      </section>
+
+      <section class="edit-profile hidden" id="edit-profile">
+        <div class="section-heading">
+          <h3>Modifier mes informations</h3>
+          <button class="secondary" id="cancel-edit-button">Annuler</button>
+        </div>
+        <form id="profile-form" class="form">
+          <div class="form-grid">
+            <label>
+              Nom complet
+              <input type="text" name="name" required>
+            </label>
+            <label>
+              Telephone
+              <input type="tel" name="phone">
+            </label>
+            <label>
+              Ville
+              <input type="text" name="city">
+            </label>
+            <label>
+              Profession
+              <input type="text" name="job_title">
+            </label>
+            <label class="full-field">
+              Organisation
+              <input type="text" name="organization">
+            </label>
+            <label>
+              Date de naissance
+              <input type="date" name="birth_date">
+            </label>
+            <label>
+              Pays
+              <input type="text" name="country">
+            </label>
+            <label>
+              LinkedIn
+              <input type="url" name="linkedin_url">
+            </label>
+            <label>
+              GitHub
+              <input type="url" name="github_url">
+            </label>
+            <label class="full-field">
+              Site web
+              <input type="url" name="website_url">
+            </label>
+            <label class="full-field">
+              Competences
+              <input type="text" name="skills">
+            </label>
+            <label class="full-field">
+              Bio
+              <textarea name="bio" rows="4"></textarea>
+            </label>
+          </div>
+          <button type="submit">Enregistrer les modifications</button>
+          <p class="success-message" id="profile-message"></p>
+        </form>
+      </section>
+
+      <section class="security-panel">
+        <div class="section-heading">
+          <h3>Securite du compte</h3>
+        </div>
+        <form id="password-form" class="form">
+          <div class="form-grid">
+            <label>
+              Mot de passe actuel
+              <input type="password" name="currentPassword" required>
+            </label>
+            <label>
+              Nouveau mot de passe
+              <input type="password" name="newPassword" minlength="6" required>
+            </label>
+          </div>
+          <button type="submit">Changer le mot de passe</button>
+          <p class="success-message" id="password-message"></p>
+        </form>
+      </section>
+
+      <section class="admin-panel hidden" id="admin-panel">
+        <div class="section-heading">
+          <h3>Interface administrateur</h3>
+          <button class="secondary" id="refresh-users">Actualiser</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Ville</th>
+                <th>Profession</th>
+                <th>Organisation</th>
+                <th>Pays</th>
+                <th>Competences</th>
+                <th>Statut</th>
+                <th>Derniere connexion</th>
+                <th>Role</th>
+                <th>Nouveau mot de passe</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users-table"></tbody>
+          </table>
+        </div>
+        <p class="admin-status" id="admin-status"></p>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
